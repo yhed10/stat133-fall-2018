@@ -1,0 +1,39 @@
+---
+title: "Untitled"
+author: "Jeonghyeon Dang"
+date: "10/5/2018"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+ p <- ggplot(teams,aes(y= salary,x=team)) + geom_bar(stat = "identity",position = "dodge")  + coord_flip() + geom_hline(yintercept = mean(teams$salary),colour = "red") + labs(x = "Team", y = "Salary (in millions)")
+
+ 
+
+ 
+ ggplot(teams,aes(y= points ,x= team)) + geom_bar(stat = "identity",position = "dodge")  + coord_flip() + geom_hline(yintercept = mean(teams$points),colour = "red") 
+```
+
+```{r}
+ ggplot(teams,aes(y= efficiency,x=team)) + geom_bar(stat = "identity",position = "dodge")  + coord_flip() + geom_hline(yintercept = mean(teams$efficiency),colour = "red")
+```
+
+```{r}
+ ggplot(teams,aes(y= assists,x=team)) + geom_bar(stat = "identity",position = "dodge")  + coord_flip() + geom_hline(yintercept = mean(teams$assists),colour = "red")
+```
+
+```{r}
+# Was this your first time working on a project with such file structure? If yes, how do you feel about it? Yes, it is really hard
+#Was this your first time using relative paths? If yes, can you tell why they are important for reproducibility purposes? No
+#Was this your first time using an R script? If yes, what do you think about just writing code (without markdown syntax)? No
+#What things were hard, even though you saw them in class/lab? Making plot
+#What was easy(-ish) even though we haven’t done it in class/lab? nothing easy
+#Did anyone help you completing the assignment? No
+#If so, who?
+# How much time did it take to complete this HW? 6hours
+#What was the most time consuming part? 3hours
+#Was there anything interesting? No
+
+```
+
