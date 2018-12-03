@@ -1,0 +1,391 @@
+---
+title: "Untitled"
+author: "Jeonghyeon Dang"
+date: "11/30/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#1) Object "device"
+
+```{r}
+install.packages("devtools")
+devtools::install_github("gastonstat/cointoss")
+
+```
+
+```{r}
+
+
+check_sides <- function(sides) {
+  if (is.vector(sides) != TRUE) {
+    stop("\n sides must be a vector")
+  }
+  if (length(sides) < 2) {
+    stop("\n 'sides' must be a vector of length greater than 1")
+  }
+
+  if (length(duplicated(sides)[duplicated(sides) == FALSE]) != length(sides)) {
+    stop("\n 'sides' cannot have duplicated elements")
+  }
+  TRUE
+}
+
+check_prob <- function(prob) {
+  if (!is.numeric(prob)) {
+    stop("\n'prob' must be a numeric vector of length 2")
+  }
+  if (any(prob < 0) | any(prob > 1)) {
+    stop("\n'prob' values must be between 0 and 1")
+  }
+  if (sum(prob) != 1) {
+    stop("\nelements in 'prob' must add up to 1")
+  }
+  TRUE
+}
+```
+
+
+```{r}
+#' @param x device object (a vector)
+#' @param sides number of sides
+#' @param prob vector of probabilities for each side
+#' @return vector of device
+
+device <- function(sides = c(1,2), prob = c(0.5, 0.5)){
+  
+  check_prob(prob)
+  
+   check_sides(sides)
+   
+   if(length(sides) != length(prob)){
+    stop("'sides' and 'prob' have different lengths")
+  }
+
+  res <- list(sides = sides, prob = prob)
+
+  class(res) <- "device"
+
+  return(res)
+}
+
+print.device <- function(x) {
+  cat('object "device"\n\n')
+  cd <- data.frame(
+    side = x$sides, prob = x$prob
+  )
+  print(cd)
+  invisible(x)
+}
+```
+
+```{r}
+is.device <- function(x){
+  if(class(x) == "device"){
+    TRUE
+  }
+  else {
+    FALSE
+  }
+}
+```
+
+```{r}
+fair_coin <- device() 
+fair_coin
+
+```
+
+```{r}
+weird_die <- device(
+sides = c('i', 'ii', 'iii', 'iv'), prob = rep(1/4, 4))
+weird_die
+```
+```{r}
+is.device(weird_die)
+```
+
+```{r}
+# create a loaded die
+loaded_die <- device(
+sides = 1:6,
+prob = c(0.075, 0.1, 0.125, 0.15, 0.20, 0.35))
+loaded_die
+```
+```{r}
+is.device(loaded_die)
+```
+```{r}
+# bad sides (there must be at least 2-sides)
+invalid_device <- device(sides = c('a'))
+```
+```{r}
+ # bad sides (duplicated sides)
+bad_coin <- device(sides = c('heads', 'heads'))
+```
+
+```{r}
+# bad probability values for prob
+bad_coin <- device( sides = c('a', 'b'), prob = c(0.2, 0.1))
+```
+```{r}
+# sides and prob of different lengths
+bad_example <- device( sides = c('a', 'b', 'c'), prob = c(0.2, 0.8))
+```
+```{r}
+ # false device
+
+is.device(c(1, 2, 3))
+```
+#2) Object "rolls"
+```{r}
+check_times <- function(times) {
+  ti <- times%%1 == 0
+  if (ti != TRUE | times <= 0) {
+    stop("times must be a positive integer greater than or equal to 1")
+  }
+  TRUE
+}
+
+```
+
+```{r}
+
+#' @param x roll object (a vector)
+#' @param device object of class "device".
+#' @param times number of times to roll the device (default value of 1)
+#' @return list of rolls,sides,prob, and total
+
+roll <- function(x, times = 1){
+  
+  check_times(times)
+  
+   if(is.device(x) != TRUE){
+    stop("device is not of class 'device'.")
+   }
+  
+  res <- sample(x$sides, size = times, replace = TRUE, prob = x$prob)
+  
+  rec <- list(rolls = res, sides = x$sides, prob = x$prob,  total = times)
+
+  class(rec) <- "rolls"
+
+  return(rec)
+}
+
+print.rolls <- function(x) {
+  cat('object "rolls"\n\n')
+  
+  ck <- list(rolls = x$rolls, sides = x$sides, prob = x$prob, total = x$total)
+  
+  print(ck)
+  invisible(x)
+}
+
+
+```
+
+
+```{r}
+fair_die <- device() 
+set.seed(123)
+fair50 <- roll(fair_die, times = 50) 
+
+```
+
+```{r}
+# roll fair die 50 times
+fair_die <- device(sides = 1:6, prob = rep(1/6, 6))
+# roll 50 times
+set.seed(123)
+fair_50rolls <- roll(fair_die, times = 50)
+```
+
+```{r}
+ # print
+fair_50rolls
+```
+
+```{r}
+ # what's in fair50?
+names(fair50)
+```
+```{r}
+fair50$rolls
+```
+```{r}
+fair50$sides
+```
+```{r}
+fair50$prob
+```
+```{r}
+fair50$total
+```
+
+```{r}
+# string die
+str_die <- device(
+sides = c('a', 'b', 'c', 'd', 'e', 'f'),
+prob = c(0.075, 0.1, 0.125, 0.15, 0.20, 0.35))
+
+# roll 20 times
+set.seed(123)
+str_rolls <- roll(str_die, times = 20) 
+names(str_rolls)
+```
+```{r}
+str_rolls
+```
+
+#3) Summary method for object "rolls"
+```{r}
+data_count <- function(x){
+  count <- c()
+for(i in 1:length(x$sides)){
+   count[i] <-  sum(x$rolls == x$sides[i])
+}
+  count
+}
+data_prop <- function(x){
+  prop <- c()
+  for(i in 1:length(x$sides)){
+    prop[i] <- sum(x$rolls == x$sides[i])/x$total[1]
+  }
+  prop
+}
+data_side <- function(x){
+  side <- c()
+  for(i in 1:length(x$sides)){
+    side[i] <- x$sides[i]
+  }
+  side
+}
+ 
+summary.rolls <- function(x, ...) {
+  
+count <- data_count(x)
+side <- data_side(x)
+prop <- data_prop(x)
+
+   freqs <- data.frame(side =data_side(x),count = data_count(x),prop = data_prop(x))
+  
+   obj <- list(freqs = freqs)
+   
+  class(obj) <- "summary.rolls"
+  
+  obj
+}
+print.summary.roll <- function(x, ...) {
+  cat('summary "rolls"\n\n')
+  print(x$freqs)
+  invisible(x)
+}
+
+
+
+```
+
+```{r}
+set.seed(123)
+fair_50rolls <- roll(fair_die, times = 50) 
+fair50_sum <- summary(fair_50rolls)
+fair50_sum
+
+
+```
+
+```{r}
+ # class
+class(fair50_sum)
+```
+```{r}
+ # what's in the summary
+names(fair50_sum)
+```
+```{r}
+fair50_sum$freqs
+```
+#4) Plot methd for object "rolls"
+```{r}
+
+
+plot.rolls <- function(x,...) {
+  y <- summary(x)
+barplot(y$freqs$prop,
+        xlab="sides of device", ylab="relative frequencies",
+        col="grey",names.arg=c("1", "2", "3","4","5","6"), border = NA
+,main="Relative Frequencies in a series of 50 rolls")
+  
+}
+```
+
+```{r}
+plot(fair_50rolls)
+```
+#5) Additional Methods
+```{r}
+# roll fair 8-sided die
+set.seed(123)
+fair_dev <- device(sides = letters[1:8], prob = rep(1/8, 8)) 
+fair500 <- roll(fair_dev, times = 500)
+
+# summary method
+summary(fair500)
+```
+```{r}
+ # extracting roll in position 500
+"[.rolls" <- function(x, i) {
+  x$rolls[i]
+}
+fair500[500]
+```
+```{r}
+# replacing last roll
+"[<-.rolls" <- function(x, i, value) {
+  
+  x$rolls[i] <- value
+  make_toss(x$coin, x$tosses)
+}
+
+fair500[500] <- 'a'
+fair500[500]
+```
+
+```{r}
+summary(fair500)
+```
+```{r}
+ # adding 100 rolls
+"+.rolls" <- function(obj, incr) {
+  if (length(incr) != 1 | incr <= 0) {
+    stop("\ninvalid increament (must be positive)")
+  }
+  more_rolls <- roll(obj$sides, times = incr)
+  roll(obj$coin, c(obj$rolls, more_flips$rolls))
+}
+
+fair600 <- fair500 + 100
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
