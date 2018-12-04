@@ -16,7 +16,6 @@ checking right times. If it is TRUE right times \code{"check_times"}
 checking right times \code{"check_times"}
 }
 \examples{
-check_times(2)
-
-
+times <- 10
+check_times(10)
 }

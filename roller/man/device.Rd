@@ -18,8 +18,5 @@ an object of class \code{"device"}
 creates an object of class \code{"device"}
 }
 \examples{
-device()
-# default
 device1 <- device()
-
 }

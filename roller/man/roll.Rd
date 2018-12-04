@@ -7,7 +7,9 @@
 roll(x, times = 1)
 }
 \arguments{
-\item{times}{number of rolling}
+\item{x}{deivce}
+
+\item{times}{times of rolling}
 }
 \value{
 data frame of sides, prob, rolls, and total \code{"roll"}
@@ -17,8 +19,6 @@ Rolling object and get data frame of sides, prob,
 rolls, and total \code{"roll"}
 }
 \examples{
-
-
-roll1 = roll()
-
+device1 <- device()
+roll(device1, times = 100)
 }

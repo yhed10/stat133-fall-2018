@@ -2,21 +2,16 @@
 % Please edit documentation in R/code.R
 \name{data_prop}
 \alias{data_prop}
-\title{summary of rolling object}
+\title{prob of rolling object}
 \usage{
 data_prop(x)
 }
 \arguments{
-\item{rolling}{object}
+\item{x}{object}
 }
 \value{
-summary of count, prop, and sides \code{"data_prop"}
+list of prob \code{"data_prop"}
 }
 \description{
-summary of rolling object and get data frame of sides, prob,
-rolls, and total \code{"data_prop"}
-}
-\examples{
-
-
+list of prob
 }

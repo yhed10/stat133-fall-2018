@@ -7,7 +7,7 @@
 is.device(x)
 }
 \arguments{
-\item{fucntion}{of device}
+\item{x}{of device}
 }
 \value{
 TRUE or FALSE. If it is class of device TRUE, if not FALSE \code{"is.device"}
@@ -16,8 +16,6 @@ TRUE or FALSE. If it is class of device TRUE, if not FALSE \code{"is.device"}
 creates checking of an object of class \code{"is.device"}
 }
 \examples{
-fair_coin <- device()
-is.device(fair_coin)
-
-
+device1 <- device()
+is.device(device1)
 }

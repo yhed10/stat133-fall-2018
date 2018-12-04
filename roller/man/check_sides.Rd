@@ -16,6 +16,6 @@ TRUE if sides is right sides \code{"check_sides"}
 check for right sides \code{"check_sides"}
 }
 \examples{
-check_sides(1)
-
+sides = c('i', 'ii', 'iii', 'iv')
+check_sides(sides)
 }

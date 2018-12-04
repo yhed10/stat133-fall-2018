@@ -7,16 +7,11 @@
 data_count(x)
 }
 \arguments{
-\item{rolling}{object}
+\item{x}{object}
 }
 \value{
-summary of count, prop, and sides \code{"data_count"}
+list of counting rolling object \code{"data_count"}
 }
 \description{
-summary of rolling object and get data frame of sides, prob,
-rolls, and total \code{"data_count"}
-}
-\examples{
-data_count()
-
+counting of rolling object \code{"data_count"}
 }

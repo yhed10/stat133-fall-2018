@@ -16,6 +16,6 @@ TRUE if prob is right prob \code{"check_prob"}
 check for right prob \code{"check_prob"}
 }
 \examples{
-check_prob(0.5)
-
+prob = rep(1/4, 4)
+check_prob(prob)
 }

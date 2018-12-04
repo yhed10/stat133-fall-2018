@@ -2,21 +2,16 @@
 % Please edit documentation in R/code.R
 \name{data_side}
 \alias{data_side}
-\title{summary of rolling object}
+\title{side of rolling object}
 \usage{
 data_side(x)
 }
 \arguments{
-\item{rolling}{object}
+\item{x}{object}
 }
 \value{
-summary of count, prop, and sides \code{"data_side"}
+list of sides \code{"data_side"}
 }
 \description{
-summary of rolling object and get data frame of sides, prob,
-rolls, and total \code{"data_side"}
-}
-\examples{
-
-
+list of side
 }
