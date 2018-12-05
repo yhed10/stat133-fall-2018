@@ -2,13 +2,13 @@
 
 ## Overview
 
-`"cointoss"` is a minimal [R](http://www.r-project.org/) package that
-provides functions to simulate tossing a coin.
+`"roller"` is a minimal package that
+provides functions to simulate rolling a object.
 
-  - `coin()` creates a coin object (of class `"coin"`)
-  - `toss()` tosses a coin object, producing a `"toss"` object.
-  - `plot()` method for a `"toss"` object to plot frequencies of heads.
-  - `summary()` method for a `"toss"` object.
+  - `device()` creates a object (of class `"device"`)
+  - `roll()` tosses a object, producing a `"roll"` object.
+  - `plot()` method for a `"roll"` object to plot frequencies.
+  - `summary()` method for a `"roll"` object.
 
 ## Motivation
 
@@ -37,50 +37,50 @@ devtools::install_github("gastonstat/cointoss", build_vignettes = TRUE)
 library(cointoss)
 
 # default coin
-coin1 <- coin()
-coin1
-#> object "coin"
+device1 <- device()
+device1
+#> object "device"
 #> 
-#> "heads", p = 0.5 
-#> "tails", p = 0.5
+#> "1", p = 0.5 
+#> "2", p = 0.5
 
-# 1 toss of coin1
-toss(coin1)
-#> object "toss"
+# 1 roll of device1
+roll(device1)
+#> object "roll"
 #> 
-#> coin: "heads", "tails" 
-#> total tosses: 1 
-#> num of heads: 1 
-#> num of tails: 0
+#> coin: "1", "2" 
+#> total rolls: 1 
+#> num of 1: 1 
+#> num of 2: 0
 
-# 10 tosses of coin1
-toss10 <- toss(coin1, times = 10)
-toss10
-#> object "toss"
+# 10 rolls of device1
+roll10 <- roll(device1, times = 10)
+roll10
+#> object "roll"
 #> 
-#> coin: "heads", "tails" 
-#> total tosses: 10 
-#> num of heads: 1 
-#> num of tails: 9
+#> sides: "1", "2" 
+#> total rolls: 10 
+#> num of 1: 1 
+#> num of 2: 9
 
 # summary
-summary(toss10)
+summary(roll10)
 #> summary "toss"
 #> 
 #>    side count prop
-#> 1 heads     1  0.1
-#> 2 tails     9  0.9
+#> 1    1     1  0.1
+#> 2    2     9  0.9
 
 
 # 100 tosses
-toss100 <- toss(coin1, times = 100)
+roll100 <- roll(device1, times = 100)
 
 # summary
-summary(toss100)
-#> summary "toss"
+summary(roll100)
+#> summary "roll"
 #> 
 #>    side count prop
-#> 1 heads    52 0.52
-#> 2 tails    48 0.48
+#> 1   1    52 0.52
+#> 2   2    48 0.48
 ```
 
